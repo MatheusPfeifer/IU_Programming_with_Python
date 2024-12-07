@@ -1,0 +1,9 @@
+2024-11-28 11:55:30,410 - ERROR - Unhandled exception: name 'df_test' is not defined
+Traceback (most recent call last):
+  File "C:\Masters\1 Semester\Programming with Python\Written Assignment\Task\project\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\1 Semester\Programming with Python\Written Assignment\Task\project\code\main.py", line 26, in main
+    matcher = LeastSquareMatcher(df_train, df_test, df_ideal)
+                                           ^^^^^^^
+NameError: name 'df_test' is not defined

@@ -1,0 +1,22 @@
+# Step 1: Clone the repository and navigate into the project directory
+git clone <repository_url>
+cd project
+
+# Step 2: Switch to the develop branch
+git checkout develop
+
+# Step 3: Create a new feature branch
+git checkout -b feature/new-function
+
+# Step 4: Make changes to your code, then stage and commit your changes
+git add .
+git commit -m "Add new function to process data and optimize workflow"
+
+# Step 5: Push your feature branch to the remote repository
+git push origin feature/new-function
+
+# Step 6: Create a Pull Request (PR) to merge feature/new-function into develop (done on Git hosting platform)
+
+# Step 7: After merge approval, update your local develop branch
+git checkout develop
+git pull origin develop

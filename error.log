@@ -1,0 +1,10 @@
+2024-12-07 15:41:10,910 - ERROR - Unhandled exception: name 'config' is not defined
+Traceback (most recent call last):
+  File "C:\Masters\1 Semester\Programming with Python\Written Assignment\Task\project\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\1 Semester\Programming with Python\Written Assignment\Task\project\main.py", line 10, in main
+    table_configs = config.table_configs
+                    ^^^^^^
+NameError: name 'config' is not defined
+2024-12-07 15:41:26,414 - ERROR - File not found: [Errno 2] No such file or directory: '../data/train.csv'
