@@ -1,11 +1,10 @@
 # Step 1: Clone the repository and navigate into the project directory
-git clone <repository_url>
-cd project
+git clone https://github.com/MatheusPfeifer/IU_Programming_with_Python.git
 
 # Step 2: Switch to the develop branch
 git checkout develop
 
-# Step 3: Create a new feature branch
+# Step 3: Create a new feature branch. I can create a new branch to test a new function or test other things in my code
 git checkout -b feature/new-function
 
 # Step 4: Make changes to your code, then stage and commit your changes
@@ -16,6 +15,7 @@ git commit -m "Add new function to process data and optimize workflow"
 git push origin feature/new-function
 
 # Step 6: Create a Pull Request (PR) to merge feature/new-function into develop (done on Git hosting platform)
+This step is if I want to update the change that I made with the new feature in the main branch (develop in this case)
 
 # Step 7: After merge approval, update your local develop branch
 git checkout develop
