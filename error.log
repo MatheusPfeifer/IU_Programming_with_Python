@@ -8,3 +8,37 @@ Traceback (most recent call last):
                     ^^^^^^
 NameError: name 'config' is not defined
 2024-12-07 15:41:26,414 - ERROR - File not found: [Errno 2] No such file or directory: '../data/train.csv'
+2025-07-05 10:16:50,956 - ERROR - Unhandled exception: SQLiteTableManager.insert_from_dataframe() missing 1 required positional argument: 'dataframe'
+Traceback (most recent call last):
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\main.py", line 44, in main
+    SQLiteTableManager.insert_from_dataframe("results", test_results_with_deviation_check, if_exists='replace')
+TypeError: SQLiteTableManager.insert_from_dataframe() missing 1 required positional argument: 'dataframe'
+2025-07-05 10:17:17,261 - ERROR - Unhandled exception: SQLiteTableManager.insert_from_dataframe() missing 1 required positional argument: 'self'
+Traceback (most recent call last):
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\main.py", line 44, in main
+    SQLiteTableManager.insert_from_dataframe(table_name="results", dataframe=test_results_with_deviation_check, if_exists='replace')
+TypeError: SQLiteTableManager.insert_from_dataframe() missing 1 required positional argument: 'self'
+2025-07-05 10:37:17,431 - ERROR - Unhandled exception: 'LeastSquareMatcher' object has no attribute 'check_if_deviation_is_greater_than_sqrt2'
+Traceback (most recent call last):
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\main.py", line 39, in main
+    test_results_with_deviation_check = matcher.check_if_deviation_is_greater_than_sqrt2(test_results)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LeastSquareMatcher' object has no attribute 'check_if_deviation_is_greater_than_sqrt2'
+2025-07-05 10:47:28,273 - ERROR - Unhandled exception: cannot access local variable 'test_results' where it is not associated with a value
+Traceback (most recent call last):
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\code\exception_handler.py", line 17, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Masters\Subjects\1 Semester\Programming with Python\Written Assignment\Task\IU_Programming_with_Python\main.py", line 32, in main
+    db_manager.insert_from_dataframe(table_name="least_squares_results", dataframe=test_results, if_exists='replace')
+                                                                                   ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'test_results' where it is not associated with a value

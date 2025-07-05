@@ -30,15 +30,16 @@ def main():
     print("Best Matches:")
     print(matches)
 
+    # Save the 4 ideal functions for the training functions that have the lower deviation
+    db_manager.insert_from_dataframe(table_name="least_squares_results", dataframe=matches, if_exists='replace')
+
     # Assign the best matching function for test data
     test_results = matcher.assign_best_matching_function(matches)
     print("Test Results with Best Matches:")
     print(test_results)
 
-    # Check for deviations greater than sqrt(2)
-    test_results_with_deviation_check = matcher.check_if_deviation_is_greater_than_sqrt2(test_results)
-    print("Final Test Results with Deviation Check:")
-    print(test_results_with_deviation_check)
+    # Save results to DB
+    db_manager.insert_from_dataframe(table_name="results", dataframe=test_results, if_exists='replace')
 
 if __name__ == "__main__":
     main()

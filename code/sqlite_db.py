@@ -96,3 +96,23 @@ class SQLiteTableManager:
         with sqlite3.connect(self.db_name) as conn:
             query = f"SELECT * FROM {table_name};"
             return pd.read_sql_query(query, conn)
+
+    def insert_from_dataframe(self, table_name: str, dataframe: pd.DataFrame, if_exists: str = 'append') -> None:
+        """
+        Inserts data from a DataFrame into a SQLite table.
+
+        Parameters:
+        -----------
+        table_name : str
+            The name of the table in the database.
+        dataframe : pd.DataFrame
+            The DataFrame containing the data to be inserted.
+        if_exists : str
+            Behavior when the table already exists:
+            - 'fail': Raise a ValueError.
+            - 'replace': Drop the table before inserting new values.
+            - 'append': Insert new values into the existing table (default).
+        """
+        with sqlite3.connect(self.db_name) as conn:
+            dataframe.to_sql(table_name, conn, if_exists=if_exists, index=False)
+

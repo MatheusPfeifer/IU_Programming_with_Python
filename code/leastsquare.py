@@ -63,62 +63,60 @@ class LeastSquareMatcher:
 
     def assign_best_matching_function(self, matches: pd.DataFrame) -> pd.DataFrame:
         """
-        Assigns the best matching function for each row in the test dataset.
-        
+        Assigns the best matching function for each row in the test dataset,
+        considering the sqrt(2) deviation rule from training. Always returns best match info.
+
         Parameters:
         -----------
         matches : pd.DataFrame
-            The DataFrame containing the best matching functions from `find_best_least_square_matches`.
-        
+            DataFrame containing the best matching functions and their max deviations.
+
         Returns:
         --------
         pd.DataFrame
-            The test dataset with the best matching function for each row.
+            The test dataset with best function match, deviation info, and rule compliance.
         """
-        # Ensure the test dataset and dataset2 are sorted by 'x'
         self.df_test = self.df_test.sort_values(by='x')
         self.dataset2 = self.dataset2.sort_values(by='x')
 
-        # Filter dataset2 to include only rows with x values present in test dataset
         dataset2_filtered = self.dataset2[self.dataset2['x'].isin(self.df_test['x'])]
-
-        # Extract relevant columns from dataset2 based on matches
         relevant_columns = matches['Column_Dataset2'].tolist()
         functions_data = dataset2_filtered[['x'] + relevant_columns]
 
-        # Merge test data with the relevant functions
         merged_data = pd.merge(self.df_test, functions_data, on='x', how='inner')
 
-        # Function to find the best matching function based on absolute deviation
-        def find_best_function(row):
-            deviations = {col: abs(row['y'] - row[col]) for col in relevant_columns}
-            best_function = min(deviations, key=deviations.get)
-            best_value = row[best_function]
-            deviation = deviations[best_function]
-            return best_function, best_value, deviation
+        deviation_lookup = matches.set_index('Column_Dataset2')['Max_Deviation'].to_dict()
 
-        merged_data[['Best_Function', 'Function_Value', 'Deviation']] = merged_data.apply(
-            lambda row: pd.Series(find_best_function(row)), axis=1
+        def evaluate_point(row):
+            min_dev = float('inf')
+            best_func = None
+            best_val = None
+            best_dev_train = None
+            best_threshold = None
+            meets = False
+
+            for col in relevant_columns:
+                y_ideal = row[col]
+                deviation = abs(row['y'] - y_ideal)
+                max_dev_train = deviation_lookup[col]
+                threshold = math.sqrt(2) * max_dev_train
+
+                if deviation < min_dev:
+                    min_dev = deviation
+                    best_func = col
+                    best_val = y_ideal
+                    best_dev_train = max_dev_train
+                    best_threshold = threshold
+                    meets = deviation <= threshold  # Atualiza com base no menor
+
+            return best_func, best_val, min_dev, best_dev_train, best_threshold, meets
+
+        merged_data[['Best_Function', 'Function_Value', 'Deviation',
+                    'Max_Deviation_Train', 'Deviation_Threshold', 'Meets_Criterion']] = merged_data.apply(
+            lambda row: pd.Series(evaluate_point(row)), axis=1
         )
 
-        # Return the test dataset with additional columns
-        return merged_data[['x', 'y', 'Best_Function', 'Function_Value', 'Deviation']]
+        return merged_data[['x', 'y', 'Best_Function', 'Function_Value', 'Deviation',
+                            'Max_Deviation_Train', 'Deviation_Threshold', 'Meets_Criterion']]
 
-    def check_if_deviation_is_greater_than_sqrt2(self, test_results: pd.DataFrame, factor=math.sqrt(2)) -> pd.DataFrame:
-        """
-        Checks if the deviation for each row in the test dataset is greater than sqrt(2).
-        
-        Parameters:
-        -----------
-        test_results : pd.DataFrame
-            The test dataset with deviations.
-        
-        Returns:
-        --------
-        pd.DataFrame
-            The test dataset with an additional column indicating whether the deviation is greater than sqrt(2).
-        """
-        mask = test_results['Deviation'] > factor
-        test_results.loc[mask, 'greater_than_sqrt2'] = True
-        test_results.loc[~mask, 'greater_than_sqrt2'] = False
-        return test_results
+
